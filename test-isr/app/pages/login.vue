@@ -206,141 +206,143 @@
   </div>
 </template>
 
+//
 <script setup>
-const supabase = useSupabaseClient();
-const user = useSupabaseUser();
+// const supabase = useSupabaseClient();
+// const user = useSupabaseUser();
 
-// Reactive data
-const email = ref("");
-const password = ref("");
-const loading = ref(false);
-const isSignUp = ref(false);
-const message = ref("");
-const messageType = ref("success");
+// // Reactive data
+// const email = ref("");
+// const password = ref("");
+// const loading = ref(false);
+// const isSignUp = ref(false);
+// const message = ref("");
+// const messageType = ref("success");
 
-// Redirect if already logged in
-watch(
-  user,
-  (newUser) => {
-    if (newUser) {
-      navigateTo("/");
-    }
-  },
-  { immediate: true }
-);
+// // Redirect if already logged in
+// watch(
+//   user,
+//   (newUser) => {
+//     if (newUser) {
+//       navigateTo("/");
+//     }
+//   },
+//   { immediate: true }
+// );
 
-// Handle email/password authentication
-const handleAuth = async () => {
-  if (!email.value || !password.value) {
-    showMessage("Please fill in all fields", "error");
-    return;
-  }
+// // Handle email/password authentication
+// const handleAuth = async () => {
+//   if (!email.value || !password.value) {
+//     showMessage("Please fill in all fields", "error");
+//     return;
+//   }
 
-  loading.value = true;
-  message.value = "";
+//   loading.value = true;
+//   message.value = "";
 
-  try {
-    let result;
+//   try {
+//     let result;
 
-    if (isSignUp.value) {
-      result = await supabase.auth.signUp({
-        email: email.value,
-        password: password.value,
-      });
+//     if (isSignUp.value) {
+//       result = await supabase.auth.signUp({
+//         email: email.value,
+//         password: password.value,
+//       });
 
-      if (result.error) throw result.error;
+//       if (result.error) throw result.error;
 
-      if (result.data?.user && !result.data.session) {
-        showMessage("Please check your email for verification link", "success");
-      } else {
-        showMessage("Account created successfully!", "success");
-        await navigateTo("/");
-      }
-    } else {
-      result = await supabase.auth.signInWithPassword({
-        email: email.value,
-        password: password.value,
-      });
+//       if (result.data?.user && !result.data.session) {
+//         showMessage("Please check your email for verification link", "success");
+//       } else {
+//         showMessage("Account created successfully!", "success");
+//         await navigateTo("/");
+//       }
+//     } else {
+//       result = await supabase.auth.signInWithPassword({
+//         email: email.value,
+//         password: password.value,
+//       });
 
-      if (result.error) throw result.error;
+//       if (result.error) throw result.error;
 
-      showMessage("Signed in successfully!", "success");
-      await navigateTo("/");
-    }
-  } catch (error) {
-    showMessage(error.message || "An error occurred", "error");
-  } finally {
-    loading.value = false;
-  }
-};
+//       showMessage("Signed in successfully!", "success");
+//       await navigateTo("/");
+//     }
+//   } catch (error) {
+//     showMessage(error.message || "An error occurred", "error");
+//   } finally {
+//     loading.value = false;
+//   }
+// };
 
-// Handle OAuth sign in
-const signInWithProvider = async (provider) => {
-  loading.value = true;
-  message.value = "";
+// // Handle OAuth sign in
+// const signInWithProvider = async (provider) => {
+//   loading.value = true;
+//   message.value = "";
 
-  try {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${window.location.origin}/`,
-      },
-    });
+//   try {
+//     const { error } = await supabase.auth.signInWithOAuth({
+//       provider,
+//       options: {
+//         redirectTo: `${window.location.origin}/`,
+//       },
+//     });
 
-    if (error) throw error;
-  } catch (error) {
-    showMessage(error.message || "An error occurred", "error");
-    loading.value = false;
-  }
-};
+//     if (error) throw error;
+//   } catch (error) {
+//     showMessage(error.message || "An error occurred", "error");
+//     loading.value = false;
+//   }
+// };
 
-// Handle forgot password
-const handleForgotPassword = async () => {
-  if (!email.value) {
-    showMessage("Please enter your email address first", "error");
-    return;
-  }
+// // Handle forgot password
+// const handleForgotPassword = async () => {
+//   if (!email.value) {
+//     showMessage("Please enter your email address first", "error");
+//     return;
+//   }
 
-  loading.value = true;
+//   loading.value = true;
 
-  try {
-    const { error } = await supabase.auth.resetPasswordForEmail(email.value, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
+//   try {
+//     const { error } = await supabase.auth.resetPasswordForEmail(email.value, {
+//       redirectTo: `${window.location.origin}/reset-password`,
+//     });
 
-    if (error) throw error;
+//     if (error) throw error;
 
-    showMessage("Password reset email sent! Check your inbox.", "success");
-  } catch (error) {
-    showMessage(error.message || "An error occurred", "error");
-  } finally {
-    loading.value = false;
-  }
-};
+//     showMessage("Password reset email sent! Check your inbox.", "success");
+//   } catch (error) {
+//     showMessage(error.message || "An error occurred", "error");
+//   } finally {
+//     loading.value = false;
+//   }
+// };
 
-// Utility function to show messages
-const showMessage = (msg, type = "success") => {
-  message.value = msg;
-  messageType.value = type;
+// // Utility function to show messages
+// const showMessage = (msg, type = "success") => {
+//   message.value = msg;
+//   messageType.value = type;
 
-  // Auto-hide success messages after 5 seconds
-  if (type === "success") {
-    setTimeout(() => {
-      message.value = "";
-    }, 5000);
-  }
-};
+//   // Auto-hide success messages after 5 seconds
+//   if (type === "success") {
+//     setTimeout(() => {
+//       message.value = "";
+//     }, 5000);
+//   }
+// };
 
-// Set page meta
-useHead({
-  title: "Login - Your App",
-  meta: [
-    {
-      name: "description",
-      content: "Sign in to your account or create a new one",
-    },
-  ],
-});
+// // Set page meta
+// useHead({
+//   title: "Login - Your App",
+//   meta: [
+//     {
+//       name: "description",
+//       content: "Sign in to your account or create a new one",
+//     },
+//   ],
+// });
+//
 </script>
 
 <style scoped>
