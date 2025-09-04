@@ -148,76 +148,76 @@
 </template>
 
 <script setup>
-// const supabase = useSupabaseClient();
-// const user = useSupabaseUser();
+const supabase = useSupabaseClient();
+const user = useSupabaseUser();
 
-// // Reactive data
-// const loading = ref(false);
+// Reactive data
+const loading = ref(false);
 
-// // Computed properties
-// const displayName = computed(() => {
-//   if (!user.value) return "";
+// Computed properties
+const displayName = computed(() => {
+  if (!user.value) return "";
 
-//   // Try to get name from user metadata (OAuth providers)
-//   if (user.value.user_metadata?.full_name) {
-//     return user.value.user_metadata.full_name;
-//   }
-//   if (user.value.user_metadata?.name) {
-//     return user.value.user_metadata.name;
-//   }
+  // Try to get name from user metadata (OAuth providers)
+  if (user.value.user_metadata?.full_name) {
+    return user.value.user_metadata.full_name;
+  }
+  if (user.value.user_metadata?.name) {
+    return user.value.user_metadata.name;
+  }
 
-//   // Fallback to email username
-//   if (user.value.email) {
-//     return user.value.email.split("@")[0];
-//   }
+  // Fallback to email username
+  if (user.value.email) {
+    return user.value.email.split("@")[0];
+  }
 
-//   return "User";
-// });
+  return "User";
+});
 
-// // Utility functions
-// const getInitials = (name) => {
-//   if (!name) return "U";
-//   return name
-//     .split(" ")
-//     .map((word) => word.charAt(0))
-//     .join("")
-//     .toUpperCase()
-//     .slice(0, 2);
-// };
+// Utility functions
+const getInitials = (name) => {
+  if (!name) return "U";
+  return name
+    .split(" ")
+    .map((word) => word.charAt(0))
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+};
 
-// const formatDate = (dateString) => {
-//   if (!dateString) return "N/A";
-//   return new Date(dateString).toLocaleDateString("en-US", {
-//     year: "numeric",
-//     month: "long",
-//     day: "numeric",
-//     hour: "2-digit",
-//     minute: "2-digit",
-//   });
-// };
+const formatDate = (dateString) => {
+  if (!dateString) return "N/A";
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
 
-// // Handle logout
-// const handleLogout = async () => {
-//   loading.value = true;
+// Handle logout
+const handleLogout = async () => {
+  loading.value = true;
 
-//   try {
-//     const { error } = await supabase.auth.signOut();
-//     if (error) throw error;
+  try {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
 
-//     // Redirect to login page after logout
-//     await navigateTo("/login");
-//   } catch (error) {
-//     console.error("Error signing out:", error.message);
-//   } finally {
-//     loading.value = false;
-//   }
-// };
+    // Redirect to login page after logout
+    await navigateTo("/login");
+  } catch (error) {
+    console.error("Error signing out:", error.message);
+  } finally {
+    loading.value = false;
+  }
+};
 
-// Set page meta
-// useHead({
-//   title: user.value ? `Welcome ${displayName.value}` : "Welcome - Your App",
-//   meta: [{ name: "description", content: "Your personalized dashboard" }],
-// });
+//Set page meta
+useHead({
+  title: user.value ? `Welcome ${displayName.value}` : "Welcome - Your App",
+  meta: [{ name: "description", content: "Your personalized dashboard" }],
+});
 </script>
 
 <style scoped>
