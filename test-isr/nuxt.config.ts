@@ -13,16 +13,16 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
   css: ["~/assets/css/main.css"],
-  modules: ["@nuxtjs/supabase"],
-  supabase: {
-    redirect: false,
-    // Options
-    redirectOptions: {
-      login: "/login",
-      callback: "/confirm",
-      include: undefined,
-      exclude: ["/", "/confirm"],
-      saveRedirectToCookie: false,
-    },
-  },
+  // modules: ["@nuxtjs/supabase"],
+  // supabase: {
+  //   redirect: false,
+  //   // Options
+  //   redirectOptions: {
+  //     login: "/login",
+  //     callback: "/confirm",
+  //     include: undefined,
+  //     exclude: ["/", "/confirm"],
+  //     saveRedirectToCookie: false,
+  //   },
+  // },
 });
