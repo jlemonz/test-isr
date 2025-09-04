@@ -17,7 +17,7 @@
                   <img
                     v-if="user.user_metadata?.avatar_url"
                     :src="user.user_metadata.avatar_url"
-                    :alt="displayName"
+                    :alt="getDisplayName()"
                     class="h-8 w-8 rounded-full"
                   />
                   <div
@@ -25,13 +25,13 @@
                     class="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center"
                   >
                     <span class="text-sm font-medium text-white">
-                      {{ getInitials(displayName) }}
+                      {{ getInitials(getDisplayName()) }}
                     </span>
                   </div>
                 </div>
                 <div class="hidden sm:block">
                   <p class="text-sm font-medium text-gray-900">
-                    {{ displayName }}
+                    {{ getDisplayName() }}
                   </p>
                   <p class="text-xs text-gray-500">{{ user.email }}</p>
                 </div>
@@ -67,7 +67,7 @@
       <div v-if="user" class="text-center">
         <div class="max-w-3xl mx-auto">
           <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Welcome back, {{ displayName }}!
+            Welcome back, {{ getDisplayName() }}!
           </h2>
           <p class="mt-4 text-lg text-gray-600">
             You're successfully logged in to your account.
@@ -154,8 +154,8 @@ const user = useSupabaseUser();
 // Reactive data
 const loading = ref(false);
 
-// Computed properties
-const displayName = computed(() => {
+// Utility functions
+const getDisplayName = () => {
   if (!user.value) return "";
 
   // Try to get name from user metadata (OAuth providers)
@@ -172,7 +172,7 @@ const displayName = computed(() => {
   }
 
   return "User";
-});
+};
 
 // Utility functions
 const getInitials = (name) => {
@@ -215,7 +215,7 @@ const handleLogout = async () => {
 
 //Set page meta
 useHead({
-  title: user.value ? `Welcome ${displayName.value}` : "Welcome - Your App",
+  title: user.value ? `Welcome ${getDisplayName()}` : "Welcome - Your App",
   meta: [{ name: "description", content: "Your personalized dashboard" }],
 });
 </script>
